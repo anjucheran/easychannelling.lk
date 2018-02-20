@@ -1,0 +1,23 @@
+<% include partials/header %>
+
+<link rel="stylesheet" href="/css/addCentre.css">
+
+<div class="formdiv border border-primary rounded">
+  <div class="heading"><h2>Add Doctor</h2></div>
+  <form method="POST" action="/centre/doctor">
+        <div class="form-group">
+          <label for="name">Channelling Centre Name</label>
+          <input type="text" class="form-control" id="name" name="name" value="Name of Channelling Centre" readonly>
+        </div>
+        <div class="form-group">
+          <label for="SLMAnum">SLMA Registration Number of Doctor</label>
+          <input type="text" class="form-control" id="SLMAnum" name="SLMAnum" placeholder="SLMA Registration Number">
+        </div>
+        <div class="login-btn">
+          <button type="submit" class="btn btn-primary">Add Doctor</button>
+          <!--<button onclick="goBack()" class="btn btn-primary">Back</button>-->
+        </div>
+      </form>
+</div>
+
+<% include partials/footer %>

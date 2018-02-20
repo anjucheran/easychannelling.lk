@@ -1,0 +1,19 @@
+<% include partials/header %>
+
+<link rel="stylesheet" href="/css/centre.css">
+
+<div class="carddiv container">
+    <h2>Channelling Centres</h2>
+    <% cntrs.forEach(function(centre){ %>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><%=centre.name%></h5>
+            <h6 class="card-subtitle"><%=centre.contact%></h6>
+            <p class="card-text"><%=centre.address%></p>
+          </div>
+        </div>
+    <% }); %>
+    <a class="btn btn-md btn-primary" href="/user/Channelling%20Centre%20Owner/<%= id %>">Go to Home</a>
+</div>
+
+<% include partials/footer %>

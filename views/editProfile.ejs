@@ -1,0 +1,24 @@
+<% include partials/header %>
+
+<link rel="stylesheet" href="/css/editProfile.css">
+
+<div class="formdiv">
+    <form>
+        <div class="form-group">
+            <label for="name1">Name</label>
+            <input type="text" class="form-control" id="name1" value="<%= user.name %>" readonly>
+        </div>
+        <div class="form-group">
+            <label for="email1">Email</label>
+            <input type="text" class="form-control" id="email1" value="<%= user.user.username %>" readonly>
+        </div>
+        <div class="form-group">
+            <label for="contact1">Contact Number</label>
+            <input type="text" class="form-control" id="contact1" value="<%= user.contact %>" readonly>
+        </div>
+    </form>
+    
+    <a class="btn btn-md btn-primary" href="">Edit Profile</a>
+</div>
+
+<% include partials/footer %>
