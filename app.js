@@ -41,19 +41,22 @@ app.post("/user", function(req, res){
     console.log(user._id);
     console.log(specUser);
     
-    res.redirect("/user/"+ type + "/" + specUser._id );
+    res.redirect("/user/edit/"+ type + "/" + specUser._id );
 });
 
 app.get("/user/:type/:id", function(req, res){
     var id = req.params.id;
-    var commands = {"Channelling Centre Owner": [["Add Channelling Centre", "/"+id+"/centre/new"], ["Add a Doctor", "/doctor/new"],["Add an Operator", "operator/new"]]};
+    var commands = {
+        "Channelling Centre Owner": [["Add Channelling Centre", "/"+id+"/centre/new"], ["Channelling Centres", "/"+id+"/centre/"]],
+        "Doctor": []
+    };
     var type = req.params.type;
     var user = types[type];
     user.findById(id).populate("user").exec(function(err, user){
         if(err){
             console.log(err);
         }else{
-            res.render("profile", {user: user, commands: commands[type]});
+            res.render("profile", {user: user, commands: commands[type], type: type});
         }
     });
 });
@@ -99,7 +102,7 @@ app.get("/:id/centre", function(req, res){
     });
 });
 
-app.post("/authenticateuser", function(req,res){
+app.post("/", function(req,res){
     var username = req.body.email2;
     var password = req.body.password2;
     User.findOne({username: username}, function(err, user){
@@ -117,7 +120,7 @@ app.post("/authenticateuser", function(req,res){
                     if(err){
                         console.log(err);
                     }else{
-                        res.redirect("/user/edit/"+type+"/"+spec.id);
+                        res.redirect("/user/"+type+"/"+spec.id);
                     }
                 });
             }
@@ -137,6 +140,74 @@ app.get("/centre", function(req,res){
 
 app.get("/centre/doctor/new", function(req, res){
     res.render("addDoctor");
+});
+
+app.get("/user/edit/:type/:id", function(req, res){
+    var id = req.params.id;
+    var type = req.params.type;
+    var user = types[type];
+    user.findById(id).populate("user").exec(function(err, user){
+        if(err){
+            console.log(err);
+        }else{
+            if(type=="Doctor"){
+                res.render("editDoctor", {user: user});
+            }else{
+                res.render("editProfile", {user: user, type: type});
+            }
+        }
+    });
+});
+
+app.post("/user/:type/:id", function(req, res){
+    var birthday = req.body.birthday;
+    var gender = req.body.gender;
+    var nic = req.body.nic;
+    var address = req.body.address;
+    var id = req.params.id;
+    var type = req.params.type;
+    if(type=="Doctor"){
+        var slmareg = req.body.slmareg;
+        var category = req.body.category;
+        Doctor.findById(id, function(err, doctor){
+            if(err){
+                console.log(err);
+            }else{
+                doctor.birthday = birthday;
+                doctor.gender = gender;
+                doctor.nic = nic;
+                doctor.address = address;
+                doctor.slmareg = slmareg;
+                doctor.category =category;
+                doctor.save();
+                res.redirect("/user/Doctor/"+id);
+            }
+        });
+    }else{
+        var specUser = types[type];
+        specUser.findById(id, function(err, user){
+            if(err){
+                console.log(err);
+            }else{
+                user.birthday = birthday;
+                user.gender = gender;
+                user.nic = nic;
+                user.address = address;
+                user.save();
+                res.redirect("/user/"+type+"/"+id);
+            }
+        });
+    }
+});
+
+app.get("/doctor", function(req,res){
+    Doctor.find({}, function(err, doctors){
+        if(err){
+            console.log(err);
+        }else{
+            res.render("allDoctors", {doctors: doctors});
+        }
+    });
 });
 
 app.listen(process.env.PORT, process.env.IP, function(){

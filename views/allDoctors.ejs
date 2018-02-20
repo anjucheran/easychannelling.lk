@@ -1,0 +1,17 @@
+<% include partials/header %>
+
+<link rel="stylesheet" href="/css/centre.css">
+
+<div class="carddiv container">
+    <h2>Doctors</h2>
+    <% doctors.forEach(function(doctor){ %>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><%=doctor.name%></h5>
+            <p class="card-text"><%=doctor.category%></p>
+          </div>
+        </div>
+    <% }); %>
+</div>
+
+<% include partials/footer %>

@@ -17,6 +17,7 @@
             <input type="text" class="form-control" id="contact1" value="<%= user.contact %>" readonly>
         </div>
     </form>
+    <a class="btn btn-md btn-primary" href="/user/edit/<%=type+"/"+user._id%>">Edit Profile</a>
     <% commands.forEach(function(command){ %>
         <a class="btn btn-md btn-primary" href="<%= command[1] %>"><%=command[0]%></a>
     <% }); %>
